@@ -18,57 +18,53 @@ var Cashew = window.Cashew = (function(){
 	var eventList = {};
 	var subUid = -1;
 	
-	var broadcast = function ( topic, args ) {
+	var broadcast = function ( name, args ) {
 
-	    if (!eventList[topic]) {
+	    if (!eventList[name]) {
 		return false;
 	    }
 
-	    setTimeout(function () {
-		var subscribers = eventList[topic];
-		var len;
-		
-		if(subscribers)
-		    len = subscribers.length;
-		else
-		    len = 0;
-		
-		while (len--) {
-		    subscribers[len].func(topic, args);
-		}
-	    }, 0);
+	    var subscribers = eventList[name];
+	    var len;
+
+	    if(subscribers)
+		len = subscribers.length;
+	    else
+		len = 0;
+
+	    while (len--) {
+		subscribers[len].callback(name, args);
+	    }
+
 	    
 	    return true;
 	};
 
-	var on = function ( topic, func ) {
+	var on = function ( name, callback ) {
 
-	    if (!eventList[topic]) {
-		eventList[topic] = [];
+	    if (!eventList[name]) {
+		eventList[name] = [];
 	    }
 
 	    var token = (++subUid).toString();
-	    eventList[topic].push({
+	    eventList[name].push({
 		token: token,
-		func: func
+		callback: callback
 	    });
 	    return token;
 	};
 
-	var off = function ( token ) {
-	    for (var e in eventList) {
-		if (eventList[e]) {
-		    for (var i = 0, j = eventList[e].length; i < j; i++) {
-			if (eventList[e][i].token === token) {
-			    eventList[e].splice(i, 1);
-			    return token;
-			}
-		    }
-		}
+	var off = function (name) {
+	    
+	    if(eventList[name]) {
+		var e = eventList[name];
+		delete eventList[name];
+		return e;
 	    }
-	    return false;
+	    else { 
+		return false;
+	    }
 	};
-
 
 	var getEventList = function(){
 	    return eventList;
