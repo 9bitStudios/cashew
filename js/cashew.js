@@ -16,54 +16,38 @@ var Cashew = window.Cashew = (function(){
     var Events = function(){ 
 	
 	var eventList = {};
-	var subUid = -1;
 	
-	var broadcast = function ( name, args ) {
+	var on = function(name, callback) {
 
-	    if (!eventList[name]) {
-		return false;
-	    }
-
-	    var subscribers = eventList[name];
-	    var len;
-
-	    if(subscribers)
-		len = subscribers.length;
-	    else
-		len = 0;
-
-	    while (len--) {
-		subscribers[len].callback(name, args);
-	    }
-
-	    
-	    return true;
-	};
-
-	var on = function ( name, callback ) {
-
-	    if (!eventList[name]) {
+	    if(!eventList[name])
 		eventList[name] = [];
-	    }
 
-	    var token = (++subUid).toString();
-	    eventList[name].push({
-		token: token,
-		callback: callback
-	    });
-	    return token;
+	    eventList[name].push({callback:callback});
+
 	};
-
-	var off = function (name) {
-	    
-	    if(eventList[name]) {
-		var e = eventList[name];
+	var off = function(name){
+	    if(eventList[name])
 		delete eventList[name];
-		return e;
+
+	};
+	var broadcast = function(name){
+
+	    for(var i in eventList){
+
+		if(i === name) {
+
+		    var args = Array.prototype.slice.call(arguments);
+		    args.splice(0, 1);
+		    for(var j=0; j< eventList[name].length; j++) {
+
+			eventList[name][j].callback.apply(this, args);
+
+		    }
+
+		}
+
 	    }
-	    else { 
-		return false;
-	    }
+
 	};
 
 	var getEventList = function(){
