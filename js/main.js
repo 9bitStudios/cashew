@@ -31,11 +31,17 @@
     
     var router = new Router();
     
-    router.route('/', 'HomeTemplate', function(){
-	console.log('Home');
+    function HomeController(param){
+	console.log('Home Controller called with ' + param);
+    }
+    
+    function AboutController(param){
+	console.log('About Controller called with ' + param);
+    }    
+    
+    router.route('/', HomeController, function(){
     });
-    router.route('/about', 'AboutTemplate', function(){
-	console.log('about');
+    router.route('/about', AboutController, function(){
     });    
     
 })();

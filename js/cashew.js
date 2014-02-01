@@ -121,7 +121,7 @@ var Cashew = window.Cashew = (function(){
 	    console.log('Invalid route');
 	else {
 	    if (route.template && route.controller) {
-		console.log('We are loading...' + route.controller);
+		route.controller.call(this, url);
 	    }
 	}
 	
