@@ -108,8 +108,33 @@ var Cashew = window.Cashew = (function(){
     /**** ROUTER ****/
     
     var routes = {};  
+    var Router = function(){ };
+    
+    Router.prototype = {
+	
+	initialize: function() { 
+	    console.log('Router initialized');
+	},
 
+	route:function(path, controller, template) {
+	    
+	    routes[path] = {controller: controller, template: template, before: this.before, after: this.after};
+	    return this;
+	},
+	
+	before: function() {
+	    console.log('Called before every route change...');
+	},
+	
+	after: function(){ 
+	    console.log('Called after every route change...');
+	}
+	
+    };
+    
     function routerHandler () {  
+	
+	
 	
 	// Current route url (getting rid of '#' in hash as well):
 	var url = location.hash.slice(1) || '/';	
@@ -120,10 +145,17 @@ var Cashew = window.Cashew = (function(){
 	if (typeof route === 'undefined') 
 	    console.log('Invalid route');
 	else {
+	    
+	    route.before.call(this);
+	    
 	    if (route.template && route.controller) {
 		route.controller.call(this, url);
 	    }
+	    
+	    route.after.call(this);
+	    
 	}
+	
 	
     }    
     
@@ -131,23 +163,7 @@ var Cashew = window.Cashew = (function(){
     window.addEventListener('hashchange', routerHandler);  
     
     // Listen on page load...
-    window.addEventListener('load', routerHandler);      
-    
-    var Router = function(){ };
-    
-    Router.prototype = {
-	initialize: function(){ },
-
-	route:function(path, controller, template){
-	    routes[path] = {controller: controller, template: template};
-	    return this;
-	},
-	
-	before: function(){ },
-	
-	after: function(){ },
-	
-    };
+    window.addEventListener('load', routerHandler);        
     
     /**** INHERITANCE ****/
     

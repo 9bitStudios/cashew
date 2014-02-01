@@ -27,7 +27,13 @@
     
     console.log(events.getEventList());
     
-    var Router = Cashew.Router.extend({});
+    var Router = Cashew.Router.extend({
+	
+	before:function(){
+	    console.log('Custom before route');
+	}
+	
+    });
     
     var router = new Router();
     
