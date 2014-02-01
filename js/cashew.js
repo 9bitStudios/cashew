@@ -105,6 +105,49 @@ var Cashew = window.Cashew = (function(){
 	initialize: function(){ }
     };
     
+    /**** ROUTER ****/
+    
+    var routes = {};  
+
+    function routerHandler () {  
+	
+	// Current route url (getting rid of '#' in hash as well):
+	var url = location.hash.slice(1) || '/';	
+	
+	var route = routes[url];
+	
+	// Do we have both a view and a route?
+	if (typeof route === 'undefined') 
+	    console.log('Invalid route');
+	else {
+	    if (route.template && route.controller) {
+		console.log('We are loading...' + route.controller);
+	    }
+	}
+	
+    }    
+    
+    // Listen on hash change...
+    window.addEventListener('hashchange', routerHandler);  
+    
+    // Listen on page load...
+    window.addEventListener('load', routerHandler);      
+    
+    var Router = function(){ };
+    
+    Router.prototype = {
+	initialize: function(){ },
+
+	route:function(path, controller, template){
+	    routes[path] = {controller: controller, template: template};	      
+	},
+	
+	before: function(){ },
+	
+	after: function(){ },
+	
+    };
+    
     /**** INHERITANCE ****/
     
     /* Simple JavaScript Inheritance
@@ -168,6 +211,7 @@ var Cashew = window.Cashew = (function(){
     Events.extend = extend;
     Model.extend = extend;
     Canvas.extend = extend;
+    Router.extend = extend;
     
     /**** RETURN STUFF ****/
     
@@ -175,6 +219,7 @@ var Cashew = window.Cashew = (function(){
 	Config: Config,
 	Events: Events,
 	Model:  Model,
+	Router: Router,
 	Canvas: Canvas
     };
     

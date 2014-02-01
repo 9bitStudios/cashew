@@ -9,8 +9,7 @@
 	}
     });
 
-    var Canvas = Cashew.Canvas.extend({
-    });
+    var Canvas = Cashew.Canvas.extend({});
     
     var c = new Canvas();
     c.create();
@@ -27,5 +26,16 @@
     var m = new Model();
     
     console.log(events.getEventList());
+    
+    var Router = Cashew.Router.extend({});
+    
+    var router = new Router();
+    
+    router.route('/', 'HomeTemplate', function(){
+	console.log('Home');
+    });
+    router.route('/about', 'AboutTemplate', function(){
+	console.log('about');
+    });    
     
 })();
