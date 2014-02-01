@@ -112,7 +112,7 @@ var Cashew = window.Cashew = (function(){
      * MIT Licensed.
      */
       
-    var extend = function(prop) {
+    var extend = function extender(prop) {
       var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;  
       var _super = this.prototype;
 
@@ -159,8 +159,8 @@ var Cashew = window.Cashew = (function(){
       // Enforce the constructor to be what we expect
       Class.prototype.constructor = Class;
 
-      // And make this class extendable
-      Class.extend = arguments.callee;
+      // And make this class extendables
+      Class.extend = extender;
 
       return Class;
     };      
