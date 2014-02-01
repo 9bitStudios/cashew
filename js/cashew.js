@@ -139,7 +139,8 @@ var Cashew = window.Cashew = (function(){
 	initialize: function(){ },
 
 	route:function(path, controller, template){
-	    routes[path] = {controller: controller, template: template};	      
+	    routes[path] = {controller: controller, template: template};
+	    return this;
 	},
 	
 	before: function(){ },

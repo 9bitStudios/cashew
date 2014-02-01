@@ -40,8 +40,11 @@
     }    
     
     router.route('/', HomeController, function(){
-    });
-    router.route('/about', AboutController, function(){
+    
+    
+    }).route('/about', AboutController, function(){
+    
+
     });    
     
 })();
