@@ -33,21 +33,15 @@ var Cashew = window.Cashew = (function(){
 	var broadcast = function(name){
 
 	    for(var i in eventList){
-
 		if(i === name) {
-
 		    var args = Array.prototype.slice.call(arguments);
 		    args.splice(0, 1);
 		    for(var j=0; j< eventList[name].length; j++) {
-
 			eventList[name][j].callback.apply(this, args);
-
 		    }
-
 		}
-
 	    }
-
+	    
 	};
 
 	var getEventList = function(){
@@ -105,6 +99,18 @@ var Cashew = window.Cashew = (function(){
 	initialize: function(){ }
     };
     
+    /**** CONTROLLERS ****/
+    
+    var controllers = {};
+    
+    
+    /**** REDIRECT ****/
+    
+    var redirect = function(){
+	
+	
+    };    
+    
     /**** ROUTER ****/
     
     var routes = {};  
@@ -116,9 +122,10 @@ var Cashew = window.Cashew = (function(){
 	    console.log('Router initialized');
 	},
 
-	route:function(path, controller, template) {
+	route:function(path, controller, callback) {
 	    
-	    routes[path] = {controller: controller, template: template, before: this.before, after: this.after};
+	    routes[path] = {controller: controller, before: this.before, after: this.after};
+	    controllers[controller] = callback;
 	    return this;
 	},
 	
@@ -134,28 +141,25 @@ var Cashew = window.Cashew = (function(){
     
     function routerHandler () {  
 	
-	
-	
 	// Current route url (getting rid of '#' in hash as well):
 	var url = location.hash.slice(1) || '/';	
 	
 	var route = routes[url];
 	
-	// Do we have both a view and a route?
+	// Do we have a route?
 	if (typeof route === 'undefined') 
 	    console.log('Invalid route');
 	else {
 	    
 	    route.before.call(this);
 	    
-	    if (route.template && route.controller) {
-		route.controller.call(this, url);
+	    if (route.controller) {
+		controllers[route.controller].call(this, url);
 	    }
 	    
 	    route.after.call(this);
 	    
 	}
-	
 	
     }    
     

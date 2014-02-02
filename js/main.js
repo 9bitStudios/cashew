@@ -31,26 +31,23 @@
 	
 	before:function(){
 	    console.log('Custom before route');
-	}
+	},
+	after:function(){
+	    console.log('Custom after route');
+	},	
 	
-    });
+    });    
     
-    var router = new Router();
+    var router = new Router();  
     
-    function HomeController(param){
-	console.log('Home Controller called with ' + param);
-    }
-    
-    function AboutController(param){
-	console.log('About Controller called with ' + param);
-    }    
-    
-    router.route('/', HomeController, function(){
-    
-    
-    }).route('/about', AboutController, function(){
-    
-
+    router.route('/', 'HomeController', function(url){ 
+	
+	console.log('Home Controller called with ' + url);
+	
+    }).route('/about', 'AboutController', function(url){
+	
+	console.log('About Controller with ' + url);
+	
     });    
     
 })();
