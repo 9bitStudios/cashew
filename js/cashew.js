@@ -99,10 +99,14 @@ var Cashew = window.Cashew = (function(){
 	initialize: function(){ }
     };
     
-    /**** CONTROLLERS ****/
+    /**** CONTROLLER ****/
     
-    var controllers = {};
-      
+    var Controller = function(){ };
+    
+    Controller.prototype = {
+	initialize: function(){ }
+    };    
+    
     
     /**** ROUTER ****/
     
@@ -115,10 +119,9 @@ var Cashew = window.Cashew = (function(){
 	    console.log('Router initialized');
 	},
 
-	route:function(path, controller, callback) {
+	route:function(path, controller) {
 	    
 	    routes[path] = {controller: controller, before: this.before, after: this.after};
-	    controllers[controller] = callback;
 	    return this;
 	},
 	
@@ -139,6 +142,8 @@ var Cashew = window.Cashew = (function(){
 	
 	var route = routes[url];
 	
+	// parse :id values here...
+	
 	// Do we have a route?
 	if (typeof route === 'undefined') 
 	    console.log('Invalid route');
@@ -147,7 +152,7 @@ var Cashew = window.Cashew = (function(){
 	    route.before.call(this);
 	    
 	    if (route.controller) {
-		controllers[route.controller].call(this, url);
+		route.controller.call(this, url);
 	    }
 	    
 	    route.after.call(this);
@@ -233,6 +238,7 @@ var Cashew = window.Cashew = (function(){
     
     Events.extend = extend;
     Model.extend = extend;
+    Controller.extend = extend;    
     Canvas.extend = extend;
     Router.extend = extend;
     
@@ -242,6 +248,7 @@ var Cashew = window.Cashew = (function(){
 	Config: Config,
 	Events: Events,
 	Model:  Model,
+	Controller:  Controller,
 	Router: Router,
 	Redirect: Redirect,
 	Canvas: Canvas

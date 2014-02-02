@@ -2,17 +2,28 @@
 
     var Events = Cashew.Events.extend({});
 
-    var Model = Cashew.Model.extend({
+    var BookModel = Cashew.Model.extend({
 
 	initialize: function(){
-	    console.log('Something');
+	    console.log('Books');
 	}
     });
 
-    var Canvas = Cashew.Canvas.extend({});
-    
-    var c = new Canvas();
-    c.create();
+
+    var HomeController = Cashew.Controller.extend({
+
+	initialize: function(){
+	    console.log('Home Controller initialized....');
+	}
+    });
+
+    var AboutController = Cashew.Controller.extend({
+
+	initialize: function(){
+	    console.log('About Controller initialized....');
+	}
+    });
+
     var events = new Events();
     events.on('form', function(){
 	console.log('yay');
@@ -23,9 +34,9 @@
     });
 
     events.broadcast('form');
-    var m = new Model();
-    
     console.log(events.getEventList());
+	
+    var book = new BookModel();
     
     var Router = Cashew.Router.extend({
 	
@@ -40,14 +51,13 @@
     
     var router = new Router();  
     
-    router.route('/', 'HomeController', function(url){ 
+    router.route('/', function(url){ 
 	
-	console.log('Home Controller called with ' + url);
+	var home = new HomeController();
 	
-    }).route('/about', 'AboutController', function(url){
+    }).route('/about', function(url){
 	
-	return Cashew.Redirect();
-	console.log('About Controller with ' + url);
+	var about = new AboutController();
 	
     });    
     
