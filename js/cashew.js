@@ -102,14 +102,7 @@ var Cashew = window.Cashew = (function(){
     /**** CONTROLLERS ****/
     
     var controllers = {};
-    
-    
-    /**** REDIRECT ****/
-    
-    var redirect = function(){
-	
-	
-    };    
+      
     
     /**** ROUTER ****/
     
@@ -168,6 +161,15 @@ var Cashew = window.Cashew = (function(){
     
     // Listen on page load...
     window.addEventListener('load', routerHandler);        
+    
+     /**** REDIRECT ****/
+     
+    var Redirect = function(path){
+	if(path)
+	    window.location.hash = '#/' + path;
+	else
+	    window.location.hash = '#';
+    }    
     
     /**** INHERITANCE ****/
     
@@ -241,6 +243,7 @@ var Cashew = window.Cashew = (function(){
 	Events: Events,
 	Model:  Model,
 	Router: Router,
+	Redirect: Redirect,
 	Canvas: Canvas
     };
     

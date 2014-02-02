@@ -46,6 +46,7 @@
 	
     }).route('/about', 'AboutController', function(url){
 	
+	return Cashew.Redirect();
 	console.log('About Controller with ' + url);
 	
     });    
