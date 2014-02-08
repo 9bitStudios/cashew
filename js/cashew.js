@@ -107,6 +107,14 @@ var Cashew = window.Cashew = (function(){
 	initialize: function(){ }
     };    
     
+    /**** VIEW ****/
+    
+    var View = function(){ };
+    
+    View.prototype = {
+	initialize: function(){ }
+    };     
+    
     
     /**** ROUTER ****/
     
@@ -238,7 +246,8 @@ var Cashew = window.Cashew = (function(){
     
     Events.extend = extend;
     Model.extend = extend;
-    Controller.extend = extend;    
+    Controller.extend = extend; 
+    View.extend = extend;
     Canvas.extend = extend;
     Router.extend = extend;
     
@@ -249,6 +258,7 @@ var Cashew = window.Cashew = (function(){
 	Events: Events,
 	Model:  Model,
 	Controller:  Controller,
+	View: View,
 	Router: Router,
 	Redirect: Redirect,
 	Canvas: Canvas
