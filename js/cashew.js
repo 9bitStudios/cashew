@@ -96,7 +96,8 @@ var Cashew = window.Cashew = (function(){
     var Model = function(){ };
     
     Model.prototype = {
-	initialize: function(){ }
+	initialize: function(){ },
+	destructor: function() { }
     };
     
     /**** CONTROLLER ****/
@@ -104,7 +105,8 @@ var Cashew = window.Cashew = (function(){
     var Controller = function(){ };
     
     Controller.prototype = {
-	initialize: function(){ }
+	initialize: function() { },
+	destructor: function() { }
     };    
     
     /**** VIEW ****/
@@ -112,7 +114,8 @@ var Cashew = window.Cashew = (function(){
     var View = function(){ };
     
     View.prototype = {
-	initialize: function(){ }
+	initialize: function() { },
+	destructor: function() { }
     };     
     
     
