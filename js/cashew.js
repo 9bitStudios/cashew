@@ -56,41 +56,6 @@ var Cashew = window.Cashew = (function(){
 	};
     };
     
-    /**** CANVAS ****/
-    
-    var Canvas = function(){ };
-    Canvas.prototype = {
-	
-	defaults: {
-	    width: 500,
-	    height: 500
-	},
-	
-	initialize: function(){ 
-	    console.log('New canvas initialized');
-	},
-	create: function(width, height){
-	    
-	    if(typeof width === 'undefined')
-		width = this.defaults.width;
-	    
-	    if(typeof height === 'undefined')
-		height = this.defaults.height;	    
-	    
-	    var canvas = document.createElement("canvas");
-	    var ctx = canvas.getContext("2d");
-	    canvas.width = width;
-	    canvas.height = height;
-	    document.body.appendChild(canvas);
-	},
-	update: function() {
-	    
-	},
-	render: function() {
-	    
-	}
-    }; 
-    
     /**** MODEL ****/
     
     var Model = function(){ };
@@ -251,7 +216,6 @@ var Cashew = window.Cashew = (function(){
     Model.extend = extend;
     Controller.extend = extend; 
     View.extend = extend;
-    Canvas.extend = extend;
     Router.extend = extend;
     
     /**** RETURN STUFF ****/
@@ -263,8 +227,7 @@ var Cashew = window.Cashew = (function(){
 	Controller:  Controller,
 	View: View,
 	Router: Router,
-	Redirect: Redirect,
-	Canvas: Canvas
+	Redirect: Redirect
     };
     
 })();
