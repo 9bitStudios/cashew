@@ -95,9 +95,9 @@ var Cashew = window.Cashew = (function(){
 	    console.log('Router initialized');
 	},
 
-	route:function(path, controller) {
+	route: function(path, callback) {
 	    
-	    routes[path] = {controller: controller, before: this.before, after: this.after};
+	    routes[path] = { exec: callback, before: this.before, after: this.after };
 	    return this;
 	},
 	
@@ -111,31 +111,78 @@ var Cashew = window.Cashew = (function(){
 	
     };
     
+    function matchRoute(url, definedRoute) {
+
+        // Current route url (getting rid of '#' in hash as well):
+        var urlSegments = url.split('/');
+        var routeSegments = definedRoute.split('/');
+        var routeObject = {};
+
+        if(urlSegments.length !== routeSegments.length) {
+            // not a match
+            return false;
+        }
+        else {   
+
+            for(var i = 0; i < urlSegments.length; i++) {
+                if(urlSegments[i].toLowerCase() === routeSegments[i].toLowerCase()) {
+                    // matched path
+                    continue;
+                }
+                else if (routeSegments[i].indexOf(':') === 0) {
+                    // matched a param, remove query string (which is handled below) and push id onto object
+                    var val = routeSegments[i].replace(':','');
+                    val = val.split('?')[0];
+                    routeObject[val] = urlSegments[i].split('?')[0];
+                }
+                else {
+                    // not a match
+                    return false;
+                }
+            }        
+        }
+
+        // did we reach the end? Get querystring, if any...
+        var hash = window.location.hash.split("?")[1];
+        
+        if(typeof hash !== "undefined") {
+           
+           var queryString = hash.split('&'); 
+           var queryStringObject = {};
+
+           for(var i = 0; i < queryString.length; i++) {
+               var currentParameter = queryString[i].split("=");
+               queryStringObject[currentParameter[0]] = currentParameter[1];
+           }
+
+           routeObject.queryString = queryStringObject;           
+            
+        }
+        
+        // after all is finished, return the route object to pass to router for use by controller
+        return routeObject;
+
+    }        
+    
     function routerHandler () {  
 	
 	// Current route url (getting rid of '#' in hash as well):
 	var url = location.hash.slice(1) || '/';	
 	
-	var route = routes[url];
-	
-	// parse :id values here...
-	
-	// Do we have a route?
-	if (typeof route === 'undefined') 
-	    console.log('Invalid route');
-	else {
-	    
-	    route.before.call(this);
-	    
-	    if (route.controller) {
-		route.controller.call(this, url);
-	    }
-	    
-	    route.after.call(this);
-	    
-	}
-	
-    }    
+        for(var i in routes) {
+            
+            var routeData = matchRoute(url, i);
+            
+            // Do we have a route? 
+            if (typeof routeData === "object") {
+                routes[i].before.call(this, routeData);
+
+                routes[i].exec.call(this, routeData);
+                
+                routes[i].after.call(this, routeData);
+            }
+        }
+    } 
     
     // Listen on hash change...
     window.addEventListener('hashchange', routerHandler);  

@@ -24,6 +24,13 @@
 	}
     });
 
+    var BookController = Cashew.Controller.extend({
+
+	initialize: function(){
+	    console.log('Book Controller initialized....');
+	}
+    });
+
     var events = new Events();
     events.on('form', function(){
 	console.log('yay');
@@ -45,20 +52,26 @@
 	},
 	after:function(){
 	    console.log('Custom after route');
-	},	
+	}	
 	
     });    
     
     var router = new Router();  
     
-    router.route('/', function(url){ 
+    router.route('/', function(obj){ 
 	
 	var home = new HomeController();
 	
-    }).route('/about', function(url){
+    }).route('/about', function(obj){
 	
 	var about = new AboutController();
 	
+    }).route('/books/:id', function(obj){
+        
+        console.log('The id is ' + obj.id + ' and the query string is ' + obj.queryString);
+        
+        var book = new BookController();
+        
     });    
     
 })();
