@@ -1,7 +1,8 @@
 (function() {
 
     var Events = Cashew.Events.extend({});
-
+    
+    
     var BookModel = Cashew.Model.extend({
 
 	initialize: function(){
@@ -25,10 +26,12 @@
     });
 
     var BookController = Cashew.Controller.extend({
-
 	initialize: function(){
 	    console.log('Book Controller initialized....');
-	}
+	},
+        getBook: function(id) {
+            console.log('This is an extending function that will get book ' + id);
+        }
     });
 
     var events = new Events();
@@ -71,7 +74,7 @@
         console.log('The id is ' + obj.id + ' and the query string is ' + obj.queryString);
         
         var book = new BookController();
-        
+        book.getBook(obj.id);
     });    
     
 })();

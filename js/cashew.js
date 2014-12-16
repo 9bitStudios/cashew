@@ -1,7 +1,6 @@
 // Cashew.js 0.0.1
 // (c) 2013 9bit Studios
 
-
 var Cashew = window.Cashew = (function(){
     
     /**** CONFIG ****/
@@ -10,6 +9,24 @@ var Cashew = window.Cashew = (function(){
 	VERSION: '0.0.1',
 	DEBUG: true
     };         
+    
+    /**** Utilities, interanl to library ****/
+    
+    var Utilities = {
+        StripTrailingSlash: function(str){
+            
+            // string is probably single '/', no need to strip last '/'
+            if(str.length === 1) {
+                return str;
+            }
+            else {
+                if(str.charAt(str.length-1) === "/") { 
+                    str = str.substr(0, str.length - 1);
+                }
+                return str;
+            }
+        }
+    };
     
     /**** EVENTS ****/
          
@@ -114,7 +131,7 @@ var Cashew = window.Cashew = (function(){
     function matchRoute(url, definedRoute) {
 
         // Current route url (getting rid of '#' in hash as well):
-        var urlSegments = url.split('/');
+        var urlSegments = Utilities.StripTrailingSlash(url).split('/');
         var routeSegments = definedRoute.split('/');
         var routeObject = {};
 
@@ -180,6 +197,9 @@ var Cashew = window.Cashew = (function(){
                 routes[i].exec.call(this, routeData);
                 
                 routes[i].after.call(this, routeData);
+                
+                // we found our route, no need to continue...
+                break;
             }
         }
     } 
@@ -193,10 +213,12 @@ var Cashew = window.Cashew = (function(){
      /**** REDIRECT ****/
      
     var Redirect = function(path){
-	if(path)
+	if(path) {
 	    window.location.hash = '#/' + path;
-	else
+        }
+	else {
 	    window.location.hash = '#';
+        }
     }    
     
     /**** INHERITANCE ****/
