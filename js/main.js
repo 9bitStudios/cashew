@@ -1,15 +1,7 @@
 (function() {
 
     var Events = Cashew.Events.extend({});
-    
-    
-    var BookModel = Cashew.Model.extend({
-
-	initialize: function(){
-	    console.log('Books');
-	}
-    });
-
+    var BookModel = Cashew.Model.extend({});
 
     var HomeController = Cashew.Controller.extend({
 
@@ -75,6 +67,21 @@
         
         var book = new BookController();
         book.getBook(obj.id);
+        
+        var book = new BookModel();
+        book.ajax({
+            url: "api.php",
+            method: "GET",
+            headers: {},
+            data: {},
+            success: function(data) {
+                console.log('The data is ' + data);
+            },
+            error: function(ex) {
+                console.log(ex);
+            }
+        });        
+        
     });    
     
 })();

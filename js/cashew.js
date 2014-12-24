@@ -36,16 +36,16 @@ var Cashew = window.Cashew = (function(){
 	
 	var on = function(name, callback) {
 
-	    if(!eventList[name])
+	    if(!eventList[name]) {
 		eventList[name] = [];
-
+            }
 	    eventList[name].push({callback:callback});
 
 	};
 	var off = function(name){
-	    if(eventList[name])
+	    if(eventList[name]) {
 		delete eventList[name];
-
+            }
 	};
 	var broadcast = function(name){
 
@@ -78,8 +78,35 @@ var Cashew = window.Cashew = (function(){
     var Model = function(){ };
     
     Model.prototype = {
-	initialize: function(){ },
-	destructor: function() { }
+        
+        // empty data object 
+        data: {},
+        
+        ajax: function(obj){
+            
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState === 4) {
+                    if(xhr.status === 200) {
+                        this.data = xhr.responseText;
+                        obj.success(this.data);
+                    }
+                    else {
+                        // error
+                        obj.error(xhr);
+                    }
+                }                
+            };   
+            for(var key in obj.headers) {
+                xhr.setRequestHeader(key, obj.headers[key]);
+            }            
+            xhr.open(obj.method, obj.url); 
+            xhr.send(JSON.stringify(obj.data));                      
+        },
+	initialize: function(){ 
+            this.data = {};
+        },
+	destructor: function(){ }
     };
     
     /**** CONTROLLER ****/
@@ -87,8 +114,8 @@ var Cashew = window.Cashew = (function(){
     var Controller = function(){ };
     
     Controller.prototype = {
-	initialize: function() { },
-	destructor: function() { }
+	initialize: function(){ },
+	destructor: function(){ }
     };    
     
     /**** VIEW ****/
@@ -96,8 +123,9 @@ var Cashew = window.Cashew = (function(){
     var View = function(){ };
     
     View.prototype = {
-	initialize: function() { },
-	destructor: function() { }
+        render: function(){ },
+	initialize: function(){ },
+	destructor: function(){ }
     };     
     
     
@@ -286,6 +314,12 @@ var Cashew = window.Cashew = (function(){
     Controller.extend = extend; 
     View.extend = extend;
     Router.extend = extend;
+    
+    var init = function(){
+        
+    };
+    
+    init();    
     
     /**** RETURN STUFF ****/
     
