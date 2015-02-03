@@ -82,14 +82,37 @@ var Cashew = window.Cashew = (function(){
         // empty data object 
         data: {},
         
+        get: function() {
+            return this.data;
+        },
+        
+        set: function(obj) {
+            if(typeof obj !== "undefined") {
+                this.data = obj;
+            }
+        },
+        
         ajax: function(obj){
+            var self = this;
+            /* Possible XHR configuration object settings...
+                {
+                    headers: { },
+                    data: {},
+                    update: false,
+                    success: function(data){ }
+                    error: function(xhr) { }
+                }
+             */
             
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if (xhr.readyState === 4) {
                     if(xhr.status === 200) {
-                        this.data = xhr.responseText;
-                        obj.success(this.data);
+                        
+                        if(obj.update === true) {
+                            self.set(self.data);
+                        }
+                        obj.success(self.data);
                     }
                     else {
                         // error
@@ -123,8 +146,34 @@ var Cashew = window.Cashew = (function(){
     var View = function(){ };
     
     View.prototype = {
-        render: function(){ },
-	initialize: function(){ },
+        
+        getModel: function() {
+            return this.model;
+        },
+        
+        getTemplate: function() {
+            return this.template;
+        },        
+        
+        getTargetElement: function() {
+            return this.targetElement;
+        },         
+        
+        render: function(){ 
+            var source = document.getElementById(this.template).innerHTML;
+            var template = Handlebars.compile(source);
+            var html = template(this.getModel().data);
+            var element = document.getElementById(this.targetElement);
+            
+            if(element) {
+                element.innerHTML = html;
+            }
+        },
+	initialize: function(model, template, targetElement){ 
+            this.model = model || new Model();
+            this.template = template || "";
+            this.targetElement = targetElement;
+        },
 	destructor: function(){ }
     };     
     

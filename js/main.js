@@ -16,14 +16,17 @@
 	    console.log('About Controller initialized....');
 	}
     });
+      
+    var BookView = Cashew.View.extend({});  
 
     var BookController = Cashew.Controller.extend({
 	initialize: function(){
-	    console.log('Book Controller initialized....');
-	},
-        getBook: function(id) {
-            console.log('This is an extending function that will get book ' + id);
-        }
+            console.log('Book Controller initialized....');
+            var book = new BookModel();
+            book.set({title: "The Grapes of Wrath"});
+            var view = new BookView(book, 'book-template', 'container');
+	    view.render();
+	}
     });
 
     var events = new Events();
@@ -38,7 +41,6 @@
     events.broadcast('form');
     console.log(events.getEventList());
 	
-    var book = new BookModel();
     
     var Router = Cashew.Router.extend({
 	
@@ -55,32 +57,18 @@
     
     router.route('/', function(obj){ 
 	
-	var home = new HomeController();
+	new HomeController();
 	
     }).route('/about', function(obj){
 	
-	var about = new AboutController();
+	new AboutController();
 	
     }).route('/books/:id', function(obj){
         
         console.log('The id is ' + obj.id + ' and the query string is ' + obj.queryString);
         
-        var book = new BookController();
-        book.getBook(obj.id);
+        new BookController();    
         
-        var book = new BookModel();
-        book.ajax({
-            url: "api.php",
-            method: "GET",
-            headers: {},
-            data: {},
-            success: function(data) {
-                console.log('The data is ' + data);
-            },
-            error: function(ex) {
-                console.log(ex);
-            }
-        });        
         
     });    
     
