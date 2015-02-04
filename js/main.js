@@ -1,8 +1,8 @@
 (function() {
 
     var Events = Cashew.Events.extend({});
-    var BookModel = Cashew.Model.extend({});
-
+    var events = new Events();
+    
     var HomeController = Cashew.Controller.extend({
 
 	initialize: function(){
@@ -10,36 +10,32 @@
 	}
     });
 
+    var AboutView = Cashew.View.extend(); 
     var AboutController = Cashew.Controller.extend({
 
 	initialize: function(){
-	    console.log('About Controller initialized....');
+	    var view = new AboutView(null, 'about-template', 'container');
+            view.render();
 	}
     });
-      
-    var BookView = Cashew.View.extend({});  
-
+    
+    var BookModel = Cashew.Model.extend();
+    var BookView = Cashew.View.extend();  
     var BookController = Cashew.Controller.extend({
 	initialize: function(){
             console.log('Book Controller initialized....');
             var book = new BookModel();
             book.set({title: "The Grapes of Wrath"});
+            events.broadcast('bookupdated', book);
             var view = new BookView(book, 'book-template', 'container');
 	    view.render();
 	}
     });
 
-    var events = new Events();
-    events.on('form', function(){
-	console.log('yay');
+    events.on('bookupdated', function(book){
+        
+	console.log('Updated book model: ' + book.get().title);
     });
-    
-    events.on('sss', function(){
-	console.log('yay');
-    });
-
-    events.broadcast('form');
-    console.log(events.getEventList());
 	
     
     var Router = Cashew.Router.extend({
@@ -67,8 +63,7 @@
         
         console.log('The id is ' + obj.id + ' and the query string is ' + obj.queryString);
         
-        new BookController();    
-        
+        new BookController();
         
     });    
     
