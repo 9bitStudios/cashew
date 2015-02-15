@@ -171,7 +171,7 @@ var Cashew = window.Cashew = (function(){
                     el = document.getElementById(selector.substr(1));
                     break;
                 default: // no id or class
-                    el = document.getElementsByTagName[0];
+                    el = document.getElementsByTagName(selector)[0];
             }            
             
             return el;
@@ -191,7 +191,7 @@ var Cashew = window.Cashew = (function(){
 	initialize: function(model, template, targetElement){ 
             this.model = model || new Model();
             this.template = template || "";
-            this.targetElement = targetElement;
+            this.targetElement = targetElement || "body";
         },
 	destructor: function(){ }
     };     

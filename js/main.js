@@ -14,7 +14,7 @@
     var AboutController = Cashew.Controller.extend({
 
 	initialize: function(){
-	    var view = new AboutView(null, 'about-template', 'container');
+	    var view = new AboutView(null, '#about-template', '.container');
             view.render();
 	}
     });
@@ -27,7 +27,7 @@
             var book = new BookModel();
             book.set({title: "The Grapes of Wrath"});
             events.broadcast('bookupdated', book);
-            var view = new BookView(book, 'book-template', 'container');
+            var view = new BookView(book, '#book-template', '.container');
 	    view.render();
 	}
     });
