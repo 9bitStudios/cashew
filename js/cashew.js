@@ -155,15 +155,34 @@ var Cashew = window.Cashew = (function(){
             return this.template;
         },        
         
-        getTargetElement: function() {
-            return this.targetElement;
+        getTargetElement: function(){
+            return this.getElement(this.targetElement);
+        },
+        
+        getElement: function(selector) {
+            
+            var el;
+            
+            switch(selector.charAt(0)) {
+                case ".": 
+                    el = document.querySelector(selector);
+                    break;
+                case "#":
+                    el = document.getElementById(selector.substr(1));
+                    break;
+                default: // no id or class
+                    el = document.getElementsByTagName[0];
+            }            
+            
+            return el;
         },         
         
+        
         render: function(){ 
-            var source = document.getElementById(this.template).innerHTML;
+            var source = this.getElement(this.template).innerHTML;
             var template = Handlebars.compile(source);
             var html = template(this.getModel().data);
-            var element = document.getElementById(this.targetElement);
+            var element = this.getElement(this.targetElement);
             
             if(element) {
                 element.innerHTML = html;
