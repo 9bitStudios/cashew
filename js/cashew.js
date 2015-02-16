@@ -10,6 +10,13 @@ var Cashew = window.Cashew = (function(){
 	DEBUG: true
     };         
     
+    
+    function log(msg) {
+        if(Config.DEBUG) {
+            console.log(msg);
+        }
+    }
+    
     /**** Utilities, interanl to library ****/
     
     var Utilities = {
@@ -205,7 +212,7 @@ var Cashew = window.Cashew = (function(){
     Router.prototype = {
 	
 	initialize: function() { 
-	    console.log('Router initialized');
+	    log('Router initialized');
 	},
 
 	route: function(path, callback) {
@@ -215,11 +222,11 @@ var Cashew = window.Cashew = (function(){
 	},
 	
 	before: function() {
-	    console.log('Called before every route change...');
+	    log('Called before every route change...');
 	},
 	
 	after: function(){ 
-	    console.log('Called after every route change...');
+	    log('Called after every route change...');
 	}
 	
     };
