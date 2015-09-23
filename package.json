@@ -1,0 +1,23 @@
+{
+    
+    "name": "Cashew",
+    "version": "0.1.0",
+    "description": "JavaScript application framework...",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/9bitStudios/cashew.git"
+
+    },
+    "homepage": "http://www.9bitstudios.com",
+    "license": "MIT",
+    "devDependencies": {
+        "grunt": "*",
+        "babelify": "*",
+        "grunt-browserify": "*",
+        "grunt-contrib-concat": "*",  
+        "grunt-contrib-uglify": "*",
+        "grunt-contrib-clean": "*",
+        "grunt-contrib-watch": "*"
+    }
+
+}
