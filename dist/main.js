@@ -1,5 +1,13 @@
 
 var router = new Cashew.Router();
+var events = new Cashew.Events();
+
+events.on('customevent', function(){
+    console.log('Event fired');
+});
+events.broadcast('customevent');
+events.off('customevent');
+events.broadcast('customevent');
 
 router.route('/', function(obj){ 
 

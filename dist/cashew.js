@@ -3092,15 +3092,17 @@ var Controller = function Controller() {
 exports.Controller = Controller;
 
 },{}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Events = (function () {
     function Events() {
         _classCallCheck(this, Events);
+
+        this.eventList = {};
     }
 
     Events.prototype.on = function on(name, callback) {
@@ -3109,6 +3111,7 @@ var Events = (function () {
             this.eventList[name] = [];
         }
         this.eventList[name].push({ callback: callback });
+        console.log('Event ' + name + ' added');
     };
 
     Events.prototype.off = function off(name) {
@@ -3123,7 +3126,7 @@ var Events = (function () {
                 var args = Array.prototype.slice.call(arguments);
                 args.splice(0, 1);
                 for (var j = 0; j < this.eventList[name].length; j++) {
-                    eventList[name][j].callback.apply(this, args);
+                    this.eventList[name][j].callback.apply(this, args);
                 }
             }
         }
@@ -3201,7 +3204,7 @@ var Router = (function () {
         window.addEventListener('load', routerHandler);
     };
 
-    Router.prototype.getCurrentRoutes = function getCurrentRoutes() {
+    Router.getCurrentRoutes = function getCurrentRoutes() {
         return this.routes;
     };
 

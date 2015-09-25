@@ -1,10 +1,8 @@
 export class Events {
  
     constructor(){ 
-        
+        this.eventList = { }; 
     }
-    
-    eventList: { }; 
     
     on(name, callback) {
 
@@ -12,7 +10,7 @@ export class Events {
             this.eventList[name] = [];
         }
         this.eventList[name].push({callback:callback});
-
+        console.log('Event ' + name + ' added');
     }
     off(name){
         if(this.eventList[name]) {
@@ -25,7 +23,7 @@ export class Events {
                 var args = Array.prototype.slice.call(arguments);
                 args.splice(0, 1);
                 for(var j=0; j< this.eventList[name].length; j++) {
-                    eventList[name][j].callback.apply(this, args);
+                    this.eventList[name][j].callback.apply(this, args);
                 }
             }
         }        
