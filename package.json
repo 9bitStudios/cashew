@@ -12,6 +12,8 @@
     "license": "MIT",
     "devDependencies": {
         "grunt": "*",
+        "grunt-contrib-cssmin": "*",
+        "grunt-contrib-sass": "*",        
         "babelify": "*",
         "grunt-browserify": "*",
         "grunt-contrib-concat": "*",  

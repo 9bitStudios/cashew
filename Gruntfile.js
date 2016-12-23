@@ -1,6 +1,17 @@
 module.exports = function(grunt){
     grunt.initConfig({
-
+        sass: {
+            dist: {
+                files: {
+                    'dist/css/cashew.css': 'src/scss/cashew.scss'
+                }
+            }
+        },
+        cssmin: {
+            add_banner: {
+                files: [{ expand: true, cwd: 'dist/css/', src: ['cashew.css'], dest: 'dist/css/', ext: '.min.css' }]
+            }
+        },
         browserify:{
             dist:{
                 options:{
@@ -8,8 +19,8 @@ module.exports = function(grunt){
                         ['babelify', {'loose':"all"}]
                     ]
                 },
-                src: ['src/modules/Cashew.js'],
-                dest: 'src/cashew.js'
+                src: ['src/js/modules/Cashew.js'],
+                dest: 'src/js/cashew.js'
             }
         },
         concat: {
@@ -17,30 +28,38 @@ module.exports = function(grunt){
                 separator: '\n'
             },
             dist: {
-                src: ['src/lib/handlebars.js','src/cashew.js'],
-                dest: 'dist/cashew.js'
+                src: [
+                    'src/js/lib/handlebars.js',
+                    'src/js/cashew.js'
+                ],
+                dest: 'dist/js/cashew.js'
             }
         },
         uglify: {
             build: {
-                src: 'dist/cashew.js',
-                dest: 'dist/cashew.min.js'
+                src: 'dist/js/cashew.js',
+                dest: 'dist/js/cashew.min.js'
             }
         },
         clean: {
             build: {
-              src: ['src/cashew.js']
+              src: ['.sass-cache/', 'dist/css/*.css.map', 'src/js/cashew.js']
             }
         },        
         watch:{
             scripts:{
-                files:['src/modules/*.js'],
+                files:['src/js/modules/*.js'],
                 tasks:['browserify','concat','uglify','clean']
-            }
+            },
+            css: {
+                files: 'src/scss/**/*.scss',
+                tasks: ['sass', 'cssmin', 'clean']
+            }            
         }
 
     });
-
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');

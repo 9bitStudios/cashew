@@ -5,7 +5,7 @@ export class Events {
     }
     
     on(name, callback) {
-
+        
         if(!this.eventList[name]) {
             this.eventList[name] = [];
         }
@@ -18,11 +18,11 @@ export class Events {
         }
     }   
     broadcast(name){
-        for(var i in this.eventList){
+        for(let i in this.eventList){
             if(i === name) {
-                var args = Array.prototype.slice.call(arguments);
+                let args = Array.prototype.slice.call(arguments);
                 args.splice(0, 1);
-                for(var j=0; j< this.eventList[name].length; j++) {
+                for(let j=0; j< this.eventList[name].length; j++) {
                     this.eventList[name][j].callback.apply(this, args);
                 }
             }
